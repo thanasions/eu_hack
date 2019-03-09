@@ -6,9 +6,9 @@ import json
 from google.cloud import vision
 from google.cloud.vision import types
 from google.oauth2 import service_account
-
+#/ dataset/ bigO/ self_reports/ 820/ daily_answers/ 0.json
 def get_dict():
-    path_to_json = os.path.join(os.path.dirname(PATH),'NY Taxis-a3cc565a66b6.json')
+    path_to_json = 'NY Taxis-a3cc565a66b6.json'
     path_to_self_reports = os.path.join(os.path.dirname('dataset', 'bigo', 'self_reports'))
     credentials = service_account.Credentials. from_service_account_file(path_to_json)
 
@@ -17,7 +17,7 @@ def get_dict():
     user_dict={}
 
     for user_dir in os.listdir(path_to_self_reports):
-        user_dict[subdir]={}
+        user_dict[user_dir]={}
         if 'meals' in os.listdir(os.path.join(path_to_self_reports, user_dir)):
             for file in os.listdir(os.path.join(path_to_self_reports, user_dir, 'meals')):
                 if file.endswith('jpg'):
@@ -28,4 +28,4 @@ def get_dict():
                         response = client.label_detection(image=image)
                         labels = response.label_annotations
                         meal_number = file.strplit(".")[0]
-                        user_dict[subdir][meal_number] = [ l.description for l in labels ]
+                        user_dict[user_dir][meal_number] = [ l.description for l in labels ]
