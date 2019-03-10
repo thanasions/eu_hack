@@ -4,6 +4,9 @@ Created on Sat Mar  9 19:58:14 2019
 
 @author: rhydianp
 """
+import pyLDAvis
+import pyLDAvis.gensim
+from gensim import corpora
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 from sklearn.decomposition import NMF, LatentDirichletAllocation
@@ -15,22 +18,22 @@ with open('users_dict.pickle','rb') as f:
 users = list(users_dict.keys())
 users = [str(x) for x in users]
 person_id = []
-food = []
+food_tokens = []
 image = []
 max_df=0.95
 
-no_topics = 8
+no_topics = 4
 no_top_words = 20
 
 for i in range(len(users)):
     user_image = list(users_dict[users[i]].keys())
     for j in range(len(user_image)):
         person_id.append(users[i])
-        food.append(users_dict[users[i]][user_image[j]])
+        food_tokens.append(users_dict[users[i]][user_image[j]])
         image.append(user_image[j])
-        
 
-food = [' '.join(x) for x in food]       
+food = [' '.join(x) for x in food_tokens]
+print(food)
 
 
 def display_topics(model, feature_names, no_top_words):
@@ -69,6 +72,10 @@ plt.colorbar()
 plt.show()
 # Run LDA
 lda = LatentDirichletAllocation(n_topics=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit(tf)
+
+output = "outputs/"
+output += "food.html"
+
 
 
 print('NMF')

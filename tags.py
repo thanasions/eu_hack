@@ -2,13 +2,15 @@ from gensim.models import KeyedVectors
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import os
 import zipfile
-from nltk import word_tokenize
+from nltk import word_tokenize, PorterStemmer
 from scipy import spatial
 
 
 class Tags(object):
     def __init__(self, file_name='models/glove/glove2vec.6B.50d.txt', doc=False,threshold=None):
-        self.__stopwords = ['food', 'meal', 'dinner', 'breakfast', 'lunch', 'snack', 'dish']
+        ps = PorterStemmer()
+        stopwords = ['cuisine','food', 'meal', 'dinner', 'breakfast', 'lunch', 'snack', 'dish', 'ingredient', 'recipe', 'produce']
+        self.__stopwords = [ps.stem(x) for x in stopwords]
         self.__predefined_tags = {
             'fruit_veg': ['fruit', 'vegetables'],
             'starchy': ['bread', 'rice', 'pasta', 'potatoes'],
@@ -59,10 +61,10 @@ class Tags(object):
             'fat_sugars': 0,
             'dairy': 0
         }
-
+        ps = PorterStemmer()
         for image_label in image_labels:
             for img_label_term in image_label.split():
-                if img_label_term.lower() not in self.__stopwords:
+                if ps.stem(img_label_term.lower()) not in self.__stopwords:
                     for tag, search_terms in self.__predefined_tags.items():
                         for search_term in search_terms:
                             try:

@@ -37,8 +37,9 @@ for i in range(len(users)):
         image.append(user_image[j])
         
 
-food = [' '.join(x) for x in food]       
-
+food = [' '.join(x) for x in food]
+with open('food_plus_garbage.txt') as handle:
+    food = handle.read().splitlines()
 
 def tokenize_and_stem(text):
     # first tokenize by sentence, then by word to ensure that punctuation is caught as it's own token
@@ -133,3 +134,6 @@ dendrogram(
         leaf_font_size=12.)
 plt.savefig('ward_dendrogram.png',dpi = 200)
 plt.show()
+
+# print(linkage_matrix)
+# print(lda.get_topics())
