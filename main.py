@@ -6,6 +6,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+
 def train(users_dict):
     tagger = tg.Tags(file_name='models/doc2vec.model', )
     data=[]
@@ -17,6 +18,7 @@ def train(users_dict):
 
 
 def tag_them(users_dict):
+
     PATH = os.getcwd()
     path_to_self_reports = os.path.join(PATH, 'dataset', 'big0', 'self_reports')
     tagger = tg.Tags()#file_name='models/fasttext/wiki-news-300d-1M-subword.vec'
@@ -37,6 +39,7 @@ def tag_them(users_dict):
             for ret_key, ret_val in ret_tags.items():
                 draw.text(( 30, counter *50), str(ret_key) +": " + str(ret_val), (255, 255, 255), font=font)
                 counter+=1
+            font = ImageFont.truetype("/opt/X11/share/fonts/TTF/VeraIt.ttf", 26)
             for label in labels:
                 draw.text((230, counter * 50),  str(label), (255, 255, 255), font=font)
                 counter += 1
